@@ -21,7 +21,7 @@ spec:
     spec:
       project: default
       source:
-        repoURL: https://github.com/YOUR_USERNAME/cluster-gitops.git
+        repoURL: https://github.com/NicolasViaud/cluster-gitops.git
         targetRevision: main
         path: 'infrastructure/external-dns/overlays/{{.environment}}'
       destination:
