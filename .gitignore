@@ -1,0 +1,24 @@
+# Kustomize build output
+kustomization.yaml.backup
+
+# Helm
+*.tgz
+
+# Secrets (never commit)
+secrets/
+*.secret.yaml
+*-secret.yaml
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+tmp/
