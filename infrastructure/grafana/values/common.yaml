@@ -1,0 +1,97 @@
+# Common Grafana values shared across all environments
+
+# Persistence
+persistence:
+  enabled: true
+  size: 10Gi
+  accessModes:
+    - ReadWriteOnce
+
+# Service configuration
+service:
+  type: ClusterIP
+  port: 80
+
+# Ingress configuration (hostname will be overridden per env)
+ingress:
+  enabled: true
+  ingressClassName: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: "selfsigned-issuer"
+
+# Datasources
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+      - name: Prometheus
+        type: prometheus
+        url: http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090
+        access: proxy
+        isDefault: true
+        jsonData:
+          timeInterval: 30s
+
+# Dashboard providers
+dashboardProviders:
+  dashboardproviders.yaml:
+    apiVersion: 1
+    providers:
+      - name: 'default'
+        orgId: 1
+        folder: ''
+        type: file
+        disableDeletion: false
+        editable: true
+        options:
+          path: /var/lib/grafana/dashboards/default
+
+# Pre-configured dashboards
+dashboards:
+  default:
+    # Kubernetes cluster monitoring
+    kubernetes-cluster:
+      gnetId: 7249
+      revision: 1
+      datasource: Prometheus
+    # Node exporter full
+    node-exporter:
+      gnetId: 1860
+      revision: 37
+      datasource: Prometheus
+    # Kubernetes pods
+    kubernetes-pods:
+      gnetId: 6417
+      revision: 1
+      datasource: Prometheus
+    # Nginx ingress controller
+    nginx-ingress:
+      gnetId: 9614
+      revision: 1
+      datasource: Prometheus
+    # ArgoCD
+    argocd:
+      gnetId: 14584
+      revision: 1
+      datasource: Prometheus
+
+# Plugins
+plugins:
+  - grafana-piechart-panel
+  - grafana-clock-panel
+
+# Common environment variables
+env:
+  GF_ANALYTICS_REPORTING_ENABLED: "false"
+  GF_ANALYTICS_CHECK_FOR_UPDATES: "false"
+  GF_USERS_ALLOW_SIGN_UP: "false"
+
+# RBAC
+rbac:
+  create: true
+  pspEnabled: false
+
+# Service account
+serviceAccount:
+  create: true
+  name: grafana

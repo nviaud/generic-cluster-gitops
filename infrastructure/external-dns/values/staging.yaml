@@ -1,0 +1,7 @@
+# Staging environment overrides for external-dns
+
+# TXT owner ID for this environment
+txtOwnerId: external-dns-staging
+
+# Info logging for staging
+logLevel: info

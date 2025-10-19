@@ -1,0 +1,44 @@
+# Production environment overrides
+
+# Prometheus Operator - production resources
+prometheusOperator:
+  resources:
+    requests:
+      cpu: 200m
+      memory: 256Mi
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+
+# Prometheus - HA setup, long retention
+prometheus:
+  prometheusSpec:
+    replicas: 2
+    retention: 30d
+    resources:
+      requests:
+        cpu: 500m
+        memory: 2Gi
+      limits:
+        cpu: 2000m
+        memory: 4Gi
+    # Storage
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 50Gi
+
+# Alertmanager - HA setup
+alertmanager:
+  alertmanagerSpec:
+    replicas: 2
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi

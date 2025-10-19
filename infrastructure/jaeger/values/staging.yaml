@@ -1,0 +1,50 @@
+# Staging environment overrides for Jaeger
+
+# Disable all-in-one, use production-like architecture
+allInOne:
+  enabled: false
+
+# Enable separate components for production-like setup
+agent:
+  enabled: true
+
+collector:
+  enabled: true
+  replicaCount: 2
+  resources:
+    requests:
+      cpu: 200m
+      memory: 512Mi
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+
+query:
+  enabled: true
+  replicaCount: 2
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+# Ingress hostname
+ingress:
+  hosts:
+    - jaeger-staging.local
+  tls:
+    - secretName: jaeger-staging-tls
+      hosts:
+        - jaeger-staging.local
+
+# Use Elasticsearch for persistence in staging
+storage:
+  type: elasticsearch
+  elasticsearch:
+    scheme: http
+    host: elasticsearch
+    port: 9200
+    # For staging, you might want to use an external ES or deploy one
+    # indexPrefix: jaeger-staging

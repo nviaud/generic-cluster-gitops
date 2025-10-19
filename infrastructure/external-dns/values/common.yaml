@@ -1,0 +1,15 @@
+# Common external-dns values shared across all environments
+
+# Sources to monitor
+sources:
+  - service
+  - ingress
+
+# Sync policy
+policy: sync
+
+# TXT registry for ownership
+registry: txt
+
+# Domain filters (empty = all domains)
+domainFilters: []

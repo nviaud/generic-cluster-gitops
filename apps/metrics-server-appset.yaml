@@ -26,16 +26,12 @@ spec:
           targetRevision: 3.12.1
           helm:
             releaseName: metrics-server
-            values: |
-              args:
-                - --cert-dir=/tmp
-                - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
-                - --kubelet-use-node-status-port
-                - --metric-resolution=15s
-                {{- if eq .environment "dev"}}
-                - --kubelet-insecure-tls
-              replicas: 1
-                {{- end}}
+            valueFiles:
+              - $values/infrastructure/metrics-server/values/common.yaml
+              - $values/infrastructure/metrics-server/values/{{.environment}}.yaml
+        - repoURL: https://github.com/NicolasViaud/cluster-gitops.git
+          targetRevision: main
+          ref: values
         - repoURL: https://github.com/NicolasViaud/cluster-gitops.git
           targetRevision: main
           path: 'infrastructure/metrics-server/overlays/{{.environment}}'

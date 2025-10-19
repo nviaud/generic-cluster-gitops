@@ -1,0 +1,7 @@
+# Production environment overrides for external-dns
+
+# TXT owner ID for this environment
+txtOwnerId: external-dns-production
+
+# Info logging for production
+logLevel: info

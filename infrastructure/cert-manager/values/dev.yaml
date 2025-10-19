@@ -1,0 +1,4 @@
+# Development environment overrides for cert-manager
+
+# No specific overrides needed for dev
+# cert-manager typically runs the same in all environments

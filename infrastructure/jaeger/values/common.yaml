@@ -1,0 +1,43 @@
+# Common Jaeger values shared across all environments
+
+# Jaeger components configuration
+provisionDataStore:
+  cassandra: false
+  elasticsearch: false
+
+# Use in-memory storage by default (overridden in staging/production)
+allInOne:
+  enabled: true
+  args:
+    - "--memory.max-traces=10000"
+
+# Agent configuration
+agent:
+  enabled: false  # Using allInOne in dev, separate agent in staging/prod
+
+# Collector configuration
+collector:
+  enabled: false  # Using allInOne in dev, separate collector in staging/prod
+  service:
+    type: ClusterIP
+
+# Query (UI) configuration
+query:
+  enabled: false  # Using allInOne in dev, separate query in staging/prod
+  service:
+    type: ClusterIP
+
+# Ingress configuration
+ingress:
+  enabled: true
+  ingressClassName: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: "selfsigned-issuer"
+
+# Service Monitor for Prometheus integration
+serviceMonitor:
+  enabled: false  # Enable when Prometheus is fully configured
+
+# Storage configuration (will be overridden per environment)
+storage:
+  type: memory

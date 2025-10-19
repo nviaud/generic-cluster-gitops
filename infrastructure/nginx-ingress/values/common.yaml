@@ -1,0 +1,12 @@
+# Common nginx-ingress values shared across all environments
+
+controller:
+  # Service type
+  service:
+    type: LoadBalancer
+
+  # Metrics configuration
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: false  # Enable when Prometheus is fully configured

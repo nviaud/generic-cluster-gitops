@@ -1,0 +1,44 @@
+# Staging environment overrides
+
+# Prometheus Operator - production-like resources
+prometheusOperator:
+  resources:
+    requests:
+      cpu: 200m
+      memory: 256Mi
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+
+# Prometheus - HA setup, moderate retention
+prometheus:
+  prometheusSpec:
+    replicas: 2
+    retention: 15d
+    resources:
+      requests:
+        cpu: 500m
+        memory: 2Gi
+      limits:
+        cpu: 2000m
+        memory: 4Gi
+    # Storage
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 30Gi
+
+# Alertmanager - HA setup
+alertmanager:
+  alertmanagerSpec:
+    replicas: 2
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi

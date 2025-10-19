@@ -26,17 +26,12 @@ spec:
           targetRevision: 1.14.5
           helm:
             releaseName: external-dns
-            values: |
-              sources:
-                - service
-                - ingress
-              policy: sync
-              registry: txt
-              txtOwnerId: external-dns-{{.environment}}
-              domainFilters: []
-              {{- if eq .environment "dev"}}
-              logLevel: debug
-              {{- end}}
+            valueFiles:
+              - $values/infrastructure/external-dns/values/common.yaml
+              - $values/infrastructure/external-dns/values/{{.environment}}.yaml
+        - repoURL: https://github.com/NicolasViaud/cluster-gitops.git
+          targetRevision: main
+          ref: values
         - repoURL: https://github.com/NicolasViaud/cluster-gitops.git
           targetRevision: main
           path: 'infrastructure/external-dns/overlays/{{.environment}}'

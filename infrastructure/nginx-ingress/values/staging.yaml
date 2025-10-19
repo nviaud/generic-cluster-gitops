@@ -1,0 +1,14 @@
+# Staging environment overrides for nginx-ingress
+
+controller:
+  # HA setup for staging
+  replicaCount: 2
+
+  # Production-like resources
+  resources:
+    requests:
+      cpu: 200m
+      memory: 256Mi
+    limits:
+      cpu: 1000m
+      memory: 512Mi

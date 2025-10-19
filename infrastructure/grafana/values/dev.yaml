@@ -1,0 +1,31 @@
+# Development environment overrides
+
+# Admin credentials (insecure for dev only!)
+adminUser: admin
+adminPassword: admin
+
+# Single replica for dev
+replicas: 1
+
+# Lower resources for dev
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+# Ingress hostname
+ingress:
+  hosts:
+    - grafana-dev.local
+  tls:
+    - secretName: grafana-dev-tls
+      hosts:
+        - grafana-dev.local
+
+# Environment variables
+env:
+  GF_SERVER_ROOT_URL: "https://grafana-dev.local"
+  GF_LOG_LEVEL: "debug"

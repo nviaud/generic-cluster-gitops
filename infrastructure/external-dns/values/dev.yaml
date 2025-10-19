@@ -1,0 +1,7 @@
+# Development environment overrides for external-dns
+
+# TXT owner ID for this environment
+txtOwnerId: external-dns-dev
+
+# Debug logging for dev
+logLevel: debug

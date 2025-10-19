@@ -1,0 +1,34 @@
+# Production environment overrides
+
+# Admin credentials from secret
+adminUser: admin
+admin:
+  existingSecret: grafana-admin-credentials
+  userKey: admin-user
+  passwordKey: admin-password
+
+# High availability
+replicas: 2
+
+# Production resources
+resources:
+  requests:
+    cpu: 200m
+    memory: 256Mi
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+
+# Ingress hostname
+ingress:
+  hosts:
+    - grafana.local
+  tls:
+    - secretName: grafana-production-tls
+      hosts:
+        - grafana.local
+
+# Environment variables
+env:
+  GF_SERVER_ROOT_URL: "https://grafana.local"
+  GF_LOG_LEVEL: "info"

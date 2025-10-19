@@ -1,0 +1,60 @@
+# Production environment overrides for Jaeger
+
+# Disable all-in-one, use production architecture
+allInOne:
+  enabled: false
+
+# Enable separate components for HA
+agent:
+  enabled: true
+
+collector:
+  enabled: true
+  replicaCount: 3
+  resources:
+    requests:
+      cpu: 500m
+      memory: 1Gi
+    limits:
+      cpu: 2000m
+      memory: 2Gi
+  autoscaling:
+    enabled: true
+    minReplicas: 3
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 80
+
+query:
+  enabled: true
+  replicaCount: 2
+  resources:
+    requests:
+      cpu: 200m
+      memory: 512Mi
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+
+# Ingress hostname
+ingress:
+  hosts:
+    - jaeger.local
+  tls:
+    - secretName: jaeger-production-tls
+      hosts:
+        - jaeger.local
+
+# Use Elasticsearch for persistence in production
+storage:
+  type: elasticsearch
+  elasticsearch:
+    scheme: https
+    host: elasticsearch-master.logging.svc.cluster.local
+    port: 9200
+    # Configure credentials via secret
+    secretName: jaeger-elasticsearch-credentials
+    # indexPrefix: jaeger-production
+
+# Enable service monitor for Prometheus
+serviceMonitor:
+  enabled: true

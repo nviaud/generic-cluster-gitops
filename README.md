@@ -9,19 +9,24 @@ This repository contains the GitOps configuration for managing Kubernetes cluste
 ├── apps/                     # ArgoCD ApplicationSets for infrastructure components
 │   ├── cert-manager-appset.yaml
 │   ├── external-dns-appset.yaml
+│   ├── grafana-appset.yaml
 │   ├── metrics-server-appset.yaml
-│   └── nginx-ingress-appset.yaml
+│   ├── nginx-ingress-appset.yaml
+│   └── prometheus-appset.yaml
 ├── bootstrap/                # Root application for bootstrapping ArgoCD
 │   ├── kustomization.yaml
 │   └── root-app.yaml
-└── infrastructure/           # Infrastructure component configurations
-    ├── cert-manager/
-    ├── external-dns/
-    ├── metrics-server/
-    └── nginx-ingress/
-        ├── base/
-        └── overlays/
-            └── dev/
+├── infrastructure/           # Infrastructure component configurations
+│   ├── cert-manager/
+│   ├── external-dns/
+│   ├── grafana/
+│   ├── metrics-server/
+│   ├── nginx-ingress/
+│   └── prometheus/
+│       ├── base/
+│       └── overlays/
+│           └── dev/
+└── llm-agent/               # LLM-powered cluster management tools
 ```
 
 ## Architecture
@@ -117,6 +122,8 @@ You should see applications for:
 - `cert-manager-dev`
 - `external-dns-dev`
 - `metrics-server-dev`
+- `prometheus-dev` (if monitoring is deployed)
+- `grafana-dev` (if monitoring is deployed)
 
 Monitor the sync status:
 
@@ -282,8 +289,38 @@ kubectl delete namespace argocd
 - **Branch**: main
 - **Pattern**: App of Apps with ApplicationSets
 
+## Monitoring
+
+This repository includes a complete monitoring stack with Prometheus and Grafana.
+
+**See [MONITORING.md](MONITORING.md) for detailed setup instructions.**
+
+Quick start:
+1. The monitoring ApplicationSets are already configured
+2. Simply commit and push the repository
+3. ArgoCD will automatically deploy Prometheus and Grafana
+4. Access Grafana at https://grafana-dev.local (admin/admin)
+
+Features:
+- Pre-configured Prometheus with 7-day retention (dev)
+- Grafana with 5 pre-installed dashboards
+- ServiceMonitors for ArgoCD and Nginx Ingress
+- Alertmanager ready for alert routing
+
+## LLM-Powered Cluster Management
+
+Want to manage your cluster using natural language? See [llm-agent/README.md](llm-agent/README.md) for:
+
+- **K8sGPT**: Ask "Why am I getting errors?" and get AI-powered diagnostics
+- **Claude Desktop Integration**: Full cluster management through conversational AI
+- **MCP Server**: Custom Kubernetes tools for Claude
+
+Quick start: [llm-agent/QUICKSTART.md](llm-agent/QUICKSTART.md)
+
 ## Additional Resources
 
 - [ArgoCD Documentation](https://argo-cd.readthedocs.io/)
 - [ApplicationSet Documentation](https://argo-cd.readthedocs.io/en/stable/user-guide/application-set/)
 - [Kustomize Documentation](https://kustomize.io/)
+- [Prometheus Documentation](https://prometheus.io/docs/)
+- [Grafana Documentation](https://grafana.com/docs/)

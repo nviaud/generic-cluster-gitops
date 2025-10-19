@@ -1,0 +1,7 @@
+# Staging environment overrides for metrics-server
+
+# HA setup for staging
+replicas: 2
+
+# Use secure TLS (no --kubelet-insecure-tls)
+# Inherits args from common.yaml

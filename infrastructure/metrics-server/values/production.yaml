@@ -1,0 +1,7 @@
+# Production environment overrides for metrics-server
+
+# HA setup for production
+replicas: 2
+
+# Use secure TLS (no --kubelet-insecure-tls)
+# Inherits args from common.yaml

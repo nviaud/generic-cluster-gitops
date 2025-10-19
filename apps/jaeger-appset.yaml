@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: nginx-ingress
+  name: jaeger
   namespace: argocd
 spec:
   goTemplate: true
@@ -14,30 +14,30 @@ spec:
           # - environment: production
   template:
     metadata:
-      name: 'nginx-ingress-{{.environment}}'
+      name: 'jaeger-{{.environment}}'
       namespace: argocd
       finalizers:
         - resources-finalizer.argocd.argoproj.io
     spec:
       project: default
       sources:
-        - repoURL: https://kubernetes.github.io/ingress-nginx
-          chart: ingress-nginx
-          targetRevision: 4.11.3
+        - repoURL: https://jaegertracing.github.io/helm-charts
+          chart: jaeger
+          targetRevision: 3.3.1
           helm:
-            releaseName: ingress-nginx
+            releaseName: jaeger
             valueFiles:
-              - $values/infrastructure/nginx-ingress/values/common.yaml
-              - $values/infrastructure/nginx-ingress/values/{{.environment}}.yaml
+              - $values/infrastructure/jaeger/values/common.yaml
+              - $values/infrastructure/jaeger/values/{{.environment}}.yaml
         - repoURL: https://github.com/NicolasViaud/cluster-gitops.git
           targetRevision: main
           ref: values
         - repoURL: https://github.com/NicolasViaud/cluster-gitops.git
           targetRevision: main
-          path: 'infrastructure/nginx-ingress/overlays/{{.environment}}'
+          path: 'infrastructure/jaeger/overlays/{{.environment}}'
       destination:
         server: https://kubernetes.default.svc
-        namespace: ingress-nginx
+        namespace: tracing
       syncPolicy:
         automated:
           prune: true

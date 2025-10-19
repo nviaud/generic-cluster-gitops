@@ -1,0 +1,11 @@
+# Production environment overrides for cert-manager
+
+# No specific overrides needed for production
+# cert-manager typically runs the same in all environments
+
+# Optional: Add HA configuration for production
+# replicaCount: 2
+# resources:
+#   requests:
+#     cpu: 100m
+#     memory: 128Mi

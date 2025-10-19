@@ -1,0 +1,4 @@
+# Staging environment overrides for cert-manager
+
+# No specific overrides needed for staging
+# cert-manager typically runs the same in all environments

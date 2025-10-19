@@ -1,0 +1,14 @@
+# Production environment overrides for nginx-ingress
+
+controller:
+  # HA setup for production
+  replicaCount: 2
+
+  # Production resources
+  resources:
+    requests:
+      cpu: 200m
+      memory: 256Mi
+    limits:
+      cpu: 1000m
+      memory: 512Mi

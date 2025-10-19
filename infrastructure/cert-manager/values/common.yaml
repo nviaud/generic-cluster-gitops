@@ -1,0 +1,9 @@
+# Common cert-manager values shared across all environments
+
+# Install CRDs as part of the Helm release
+installCRDs: true
+
+# Global configuration
+global:
+  leaderElection:
+    namespace: cert-manager

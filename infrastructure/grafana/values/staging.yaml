@@ -1,0 +1,34 @@
+# Staging environment overrides
+
+# Admin credentials from secret
+adminUser: admin
+admin:
+  existingSecret: grafana-admin-credentials
+  userKey: admin-user
+  passwordKey: admin-password
+
+# Higher availability
+replicas: 2
+
+# Production-like resources
+resources:
+  requests:
+    cpu: 200m
+    memory: 256Mi
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+
+# Ingress hostname
+ingress:
+  hosts:
+    - grafana-staging.local
+  tls:
+    - secretName: grafana-staging-tls
+      hosts:
+        - grafana-staging.local
+
+# Environment variables
+env:
+  GF_SERVER_ROOT_URL: "https://grafana-staging.local"
+  GF_LOG_LEVEL: "info"

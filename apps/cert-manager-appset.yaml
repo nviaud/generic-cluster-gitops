@@ -26,11 +26,12 @@ spec:
           targetRevision: v1.15.3
           helm:
             releaseName: cert-manager
-            values: |
-              installCRDs: true
-              global:
-                leaderElection:
-                  namespace: cert-manager
+            valueFiles:
+              - $values/infrastructure/cert-manager/values/common.yaml
+              - $values/infrastructure/cert-manager/values/{{.environment}}.yaml
+        - repoURL: https://github.com/NicolasViaud/cluster-gitops.git
+          targetRevision: main
+          ref: values
         - repoURL: https://github.com/NicolasViaud/cluster-gitops.git
           targetRevision: main
           path: 'infrastructure/cert-manager/overlays/{{.environment}}'

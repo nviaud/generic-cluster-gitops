@@ -1,0 +1,27 @@
+# Development environment overrides for Jaeger
+
+# Use all-in-one deployment for simplicity in dev
+allInOne:
+  enabled: true
+  args:
+    - "--memory.max-traces=5000"
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+# Ingress hostname
+ingress:
+  hosts:
+    - jaeger-dev.local
+  tls:
+    - secretName: jaeger-dev-tls
+      hosts:
+        - jaeger-dev.local
+
+# In-memory storage for dev
+storage:
+  type: memory
