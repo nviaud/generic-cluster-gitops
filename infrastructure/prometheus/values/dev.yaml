@@ -42,3 +42,19 @@ alertmanager:
       limits:
         cpu: 200m
         memory: 256Mi
+
+# Disable node-exporter in Docker Desktop due to mount issues
+# Node-exporter requires shared mounts which Docker Desktop doesn't support well
+# You'll still get container/pod metrics from cAdvisor (built into kubelet)
+nodeExporter:
+  enabled: false
+
+# Optional: Also reduce kube-state-metrics resources for dev
+kubeStateMetrics:
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
