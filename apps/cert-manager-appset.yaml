@@ -10,8 +10,8 @@ spec:
     - list:
         elements:
           - environment: dev
-          - environment: staging
-          - environment: production
+          # - environment: staging
+          # - environment: production
   template:
     metadata:
       name: 'cert-manager-{{.environment}}'
