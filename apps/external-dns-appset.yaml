@@ -20,10 +20,26 @@ spec:
         - resources-finalizer.argocd.argoproj.io
     spec:
       project: default
-      source:
-        repoURL: https://github.com/NicolasViaud/cluster-gitops.git
-        targetRevision: main
-        path: 'infrastructure/external-dns/overlays/{{.environment}}'
+      sources:
+        - repoURL: https://kubernetes-sigs.github.io/external-dns/
+          chart: external-dns
+          targetRevision: 1.14.5
+          helm:
+            releaseName: external-dns
+            values: |
+              sources:
+                - service
+                - ingress
+              policy: sync
+              registry: txt
+              txtOwnerId: external-dns-{{.environment}}
+              domainFilters: []
+              {{- if eq .environment "dev"}}
+              logLevel: debug
+              {{- end}}
+        - repoURL: https://github.com/NicolasViaud/cluster-gitops.git
+          targetRevision: main
+          path: 'infrastructure/external-dns/overlays/{{.environment}}'
       destination:
         server: https://kubernetes.default.svc
         namespace: external-dns

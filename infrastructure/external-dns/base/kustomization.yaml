@@ -5,17 +5,3 @@ namespace: external-dns
 
 resources:
   - namespace.yaml
-
-helmCharts:
-  - name: external-dns
-    repo: https://kubernetes-sigs.github.io/external-dns/
-    version: 1.14.5
-    releaseName: external-dns
-    namespace: external-dns
-    valuesInline:
-      sources:
-        - service
-        - ingress
-      policy: sync
-      registry: txt
-      txtOwnerId: external-dns

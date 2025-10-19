@@ -20,10 +20,25 @@ spec:
         - resources-finalizer.argocd.argoproj.io
     spec:
       project: default
-      source:
-        repoURL: https://github.com/NicolasViaud/cluster-gitops.git
-        targetRevision: main
-        path: 'infrastructure/metrics-server/overlays/{{.environment}}'
+      sources:
+        - repoURL: https://kubernetes-sigs.github.io/metrics-server/
+          chart: metrics-server
+          targetRevision: 3.12.1
+          helm:
+            releaseName: metrics-server
+            values: |
+              args:
+                - --cert-dir=/tmp
+                - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
+                - --kubelet-use-node-status-port
+                - --metric-resolution=15s
+                {{- if eq .environment "dev"}}
+                - --kubelet-insecure-tls
+              replicas: 1
+                {{- end}}
+        - repoURL: https://github.com/NicolasViaud/cluster-gitops.git
+          targetRevision: main
+          path: 'infrastructure/metrics-server/overlays/{{.environment}}'
       destination:
         server: https://kubernetes.default.svc
         namespace: metrics-server

@@ -20,10 +20,20 @@ spec:
         - resources-finalizer.argocd.argoproj.io
     spec:
       project: default
-      source:
-        repoURL: https://github.com/NicolasViaud/cluster-gitops.git
-        targetRevision: main
-        path: 'infrastructure/cert-manager/overlays/{{.environment}}'
+      sources:
+        - repoURL: https://charts.jetstack.io
+          chart: cert-manager
+          targetRevision: v1.15.3
+          helm:
+            releaseName: cert-manager
+            values: |
+              installCRDs: true
+              global:
+                leaderElection:
+                  namespace: cert-manager
+        - repoURL: https://github.com/NicolasViaud/cluster-gitops.git
+          targetRevision: main
+          path: 'infrastructure/cert-manager/overlays/{{.environment}}'
       destination:
         server: https://kubernetes.default.svc
         namespace: cert-manager
